@@ -11,10 +11,6 @@
 *.sln.docstates
 *.env
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
@@ -198,15 +194,11 @@ DocProject/Help/html
 
 # Click-Once directory
 publish/
-<<<<<<< HEAD
 *.pem
 
 appsettings.json
 bin/
 obj/
-
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
 
 # Publish Web Output
 *.[Pp]ublish.xml
