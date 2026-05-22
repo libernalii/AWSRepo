@@ -1,8 +1,6 @@
-<<<<<<< HEAD
+
 using Amazon.BedrockRuntime;
 using Amazon.DynamoDBv2;
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
 using CinemaAPI.Filters;
 using CinemaAPI.Middleware;
 using CinemaCore.Interfaces;
@@ -30,7 +28,7 @@ builder.Services.AddControllers(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IMovieService, MovieService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
-<<<<<<< HEAD
+
 builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped<DynamoDbService>();
 
@@ -48,12 +46,12 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         ServerVersion.AutoDetect(
             builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
-=======
+
 
 // DbContext через DI з правильним ConnectionString
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
 
 // JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
