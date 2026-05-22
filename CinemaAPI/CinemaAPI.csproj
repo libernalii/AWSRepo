@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,12 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <PackageReference Include="AWSSDK.BedrockRuntime" Version="4.0.18" />
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.18.4" />
     <PackageReference Include="AWSSDK.S3" Version="4.0.23.3" />
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.25">
       <PrivateAssets>all</PrivateAssets>
