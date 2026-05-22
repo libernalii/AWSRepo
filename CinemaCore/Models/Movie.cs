@@ -13,10 +13,9 @@ namespace CinemaCore.Models
         public int DurationMinutes { get; set; }
         public string Description { get; set; }
         public DateTime ShowTime { get; set; }
-<<<<<<< HEAD
+
         public string? PosterUrl { get; set; }
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
         public List<Ticket> Tickets { get; set; }
     }
 }
