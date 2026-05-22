@@ -7,11 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-<<<<<<< HEAD
     <PackageReference Include="AWSSDK.DynamoDBv2" Version="4.0.18.4" />
     <PackageReference Include="AWSSDK.S3" Version="4.0.23.3" />
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.25" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.25" />
@@ -24,10 +22,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-<<<<<<< HEAD
+
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
   </ItemGroup>
 
