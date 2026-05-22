@@ -20,6 +20,7 @@ namespace CinemaAPI.Controllers
         {
             _service = service;
             _s3Service = s3Service;
+        }
 
         public MoviesController(IMovieService service)
         {
