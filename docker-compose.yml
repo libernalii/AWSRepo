@@ -1,0 +1,16 @@
+services:
+  cinemaapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: cinema-api
+
+    ports:
+      - "5000:5000"
+
+    environment:
+      ASPNETCORE_URLS: http://+:5000
+      ASPNETCORE_ENVIRONMENT: Production
+
+    restart: always

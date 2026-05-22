@@ -1,0 +1,76 @@
+@CinemaAPI_HostAddress = http://localhost:5237
+
+###
+
+# Register (створення користувача)
+POST {{CinemaAPI_HostAddress}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Admin",
+  "email": "admin@gmail.com",
+  "password": "123456",
+  "role": "Admin"
+}
+
+###
+
+# Login (отримання JWT)
+POST {{CinemaAPI_HostAddress}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "123456"
+}
+
+###
+
+# Get all movies (усі можуть бачити)
+GET {{CinemaAPI_HostAddress}}/movies
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWxpY2VAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiIyIiwiZXhwIjoxNzc0NjEzNDQ4LCJpc3MiOiJDaW5lbWFBUEkiLCJhdWQiOiJDaW5lbWFVc2VycyJ9.9e0TN5Jh7ZaiGV7H9kivnLMsCoiA5nNSuM9cVKvS_SQ
+
+###
+
+# Add new movie (Admin only)
+POST {{CinemaAPI_HostAddress}}/movies
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWxpY2VAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiIyIiwiZXhwIjoxNzc0NjEzNDQ4LCJpc3MiOiJDaW5lbWFBUEkiLCJhdWQiOiJDaW5lbWFVc2VycyJ9.9e0TN5Jh7ZaiGV7H9kivnLMsCoiA5nNSuM9cVKvS_SQ
+
+{
+  "title": "Interstellar",
+  "genre": "Sci-Fi",
+  "durationMinutes": 169,
+  "description": "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."
+}
+
+###
+
+# Update movie (Admin only)
+PUT {{CinemaAPI_HostAddress}}/movies/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWxpY2VAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiIyIiwiZXhwIjoxNzc0NjEzNDQ4LCJpc3MiOiJDaW5lbWFBUEkiLCJhdWQiOiJDaW5lbWFVc2VycyJ9.9e0TN5Jh7ZaiGV7H9kivnLMsCoiA5nNSuM9cVKvS_SQ
+
+{
+  "title": "Interstellar Updated",
+  "genre": "Sci-Fi / Adventure",
+  "durationMinutes": 170,
+  "description": "Updated description with more details."
+}
+
+###
+
+# Buy a ticket (Customer)
+POST {{CinemaAPI_HostAddress}}/tickets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWxpY2VAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiIyIiwiZXhwIjoxNzc0NjEzNDQ4LCJpc3MiOiJDaW5lbWFBUEkiLCJhdWQiOiJDaW5lbWFVc2VycyJ9.9e0TN5Jh7ZaiGV7H9kivnLMsCoiA5nNSuM9cVKvS_SQ
+
+{
+  "movieId": 1
+}
+
+###
+
+# Cancel a ticket (Customer)
+DELETE {{CinemaAPI_HostAddress}}/tickets/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWxpY2VAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQ3VzdG9tZXIiLCJVc2VySWQiOiIyIiwiZXhwIjoxNzc0NjEzNDQ4LCJpc3MiOiJDaW5lbWFBUEkiLCJhdWQiOiJDaW5lbWFVc2VycyJ9.9e0TN5Jh7ZaiGV7H9kivnLMsCoiA5nNSuM9cVKvS_SQ

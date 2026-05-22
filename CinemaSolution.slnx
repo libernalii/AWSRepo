@@ -1,0 +1,11 @@
+<Solution>
+<<<<<<< HEAD
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+=======
+>>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+  <Project Path="CinemaAPI/CinemaAPI.csproj" />
+  <Project Path="CinemaCore/CinemaCore.csproj" />
+  <Project Path="CinemaStorage/CinemaStorage.csproj" />
+</Solution>
