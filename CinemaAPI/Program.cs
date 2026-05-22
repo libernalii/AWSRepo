@@ -32,12 +32,13 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped<DynamoDbService>();
 
-var awsOptions = builder.Configuration.GetSection("AWS");
-var credentials = new Amazon.Runtime.BasicAWSCredentials(awsOptions["AccessKey"], awsOptions["SecretKey"]);
-var region = Amazon.RegionEndpoint.GetBySystemName(awsOptions["Region"]);
+// Реєструємо базові налаштування AWS з конфігурації (там залишиться тільки регіон)
+var awsOptions = builder.Configuration.GetAWSOptions();
+builder.Services.AddDefaultAWSOptions(awsOptions);
 
-builder.Services.AddSingleton<IAmazonBedrockRuntime>(new AmazonBedrockRuntimeClient(credentials, region));
-builder.Services.AddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(credentials, region));
+// Реєструємо клієнти AWS. Вони самі підтягнуть роль з EC2 або локальні змінні!
+builder.Services.AddAWSService<IAmazonBedrockRuntime>();
+builder.Services.AddAWSService<IAmazonDynamoDB>();
 
 // DbContext через DI з правильним ConnectionString
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -46,12 +47,6 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         ServerVersion.AutoDetect(
             builder.Configuration.GetConnectionString("DefaultConnection"))
     ));
-
-
-// DbContext через DI з правильним ConnectionString
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
 
 // JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
