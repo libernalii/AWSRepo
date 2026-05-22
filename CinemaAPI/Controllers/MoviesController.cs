@@ -2,10 +2,9 @@
 using CinemaCore.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-<<<<<<< HEAD
+
 using CinemaStorage.Services;
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
 
 namespace CinemaAPI.Controllers
 {
@@ -14,19 +13,18 @@ namespace CinemaAPI.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _service;
-<<<<<<< HEAD
+
         private readonly S3Service _s3Service;
 
         public MoviesController(IMovieService service, S3Service s3Service)
         {
             _service = service;
             _s3Service = s3Service;
-=======
 
         public MoviesController(IMovieService service)
         {
             _service = service;
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
         }
 
         // ВСІ БАЧАТЬ ФІЛЬМИ
@@ -63,7 +61,6 @@ namespace CinemaAPI.Controllers
             _service.Delete(id);
             return Ok("Deleted");
         }
-<<<<<<< HEAD
 
         [HttpPost("upload-poster")]
         public async Task<IActionResult> UploadPoster(IFormFile file)
@@ -78,7 +75,6 @@ namespace CinemaAPI.Controllers
                 PosterUrl = url
             });
         }
-=======
->>>>>>> 99644a21ecf07fd750c4b5e982d1c6b7fe7a1d03
+
     }
 }
