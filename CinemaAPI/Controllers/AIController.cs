@@ -33,24 +33,24 @@ namespace CinemaAPI.Controllers
             if (string.IsNullOrEmpty(request.Prompt))
                 return BadRequest("Промпт не може бути порожнім.");
 
-            // Системний промпт для ШІ (вимога ТЗ щодо кастомізації)
+            Console.WriteLine($"[AIController] Отримано запит з промптом: {request.Prompt}");
+
             string systemPrompt = "Ти — інтелектуальний AI-помічник кінотеатру CinemaAPI. Твоє завдання — рекомендувати фільми на основі запиту користувача. Відповідай виключно українською мовою, лаконічно та професійно.";
 
-            // Формування запиту через Converse API (найновіший стандарт AWS SDK)
             var converseRequest = new ConverseRequest
             {
                 ModelId = ModelId,
                 Messages = new List<Message>
+        {
+            new Message
+            {
+                Role = ConversationRole.User,
+                Content = new List<ContentBlock>
                 {
-                    new Message
-                    {
-                        Role = ConversationRole.User,
-                        Content = new List<ContentBlock>
-                        {
-                            new ContentBlock { Text = $"Порекомендуй фільм під такий настрій/опис: {request.Prompt}" }
-                        }
-                    }
-                },
+                    new ContentBlock { Text = $"Порекомендуй фільм під такий настрій/опис: {request.Prompt}" }
+                }
+            }
+        },
                 System = new List<SystemContentBlock> { new SystemContentBlock { Text = systemPrompt } },
                 InferenceConfig = new InferenceConfiguration
                 {
@@ -61,22 +61,29 @@ namespace CinemaAPI.Controllers
 
             try
             {
-                // 1. Виклик AWS Bedrock
+                Console.WriteLine("[AIController] Надсилання запиту до AWS Bedrock...");
                 var response = await _bedrockClient.ConverseAsync(converseRequest);
-                string aiResponseText = response.Output.Message.Content[0].Text;
 
-                // 2. Збереження логу запиту в DynamoDB (Виконання критерію №3 ТЗ)
+                string aiResponseText = response.Output.Message.Content[0].Text;
+                Console.WriteLine($"[AIController] Відповідь від Bedrock отримана успішно! Довжина тексту: {aiResponseText.Length}");
+
+                Console.WriteLine($"[AIController] Спроба збереження логу в DynamoDB (Таблиця: {_tableName})...");
                 await SaveLogToDynamoDb(request.Prompt, aiResponseText);
+                Console.WriteLine("[AIController] Лог успішно збережено в DynamoDB.");
 
                 return Ok(new
                 {
                     Recommendation = aiResponseText,
-                    Region = "eu-north-1 (Stockholm)",
+                    Region = "us-east-1",
                     Model = "Meta Llama 3 8B"
                 });
             }
             catch (Exception ex)
             {
+                // Цей рядок примусово виведе помилку прямо в команду `docker logs`!
+                Console.WriteLine($"[CRITICAL ERROR] Помилка в AIController: {ex.GetType().Name} -> {ex.Message}");
+                Console.WriteLine($"[STACK TRACE] {ex.StackTrace}");
+
                 return StatusCode(500, new
                 {
                     message = "Помилка при зверненні до AWS сервісів",
