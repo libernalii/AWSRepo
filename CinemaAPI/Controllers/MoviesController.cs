@@ -66,15 +66,18 @@ namespace CinemaAPI.Controllers
         [HttpPost("upload-poster")]
         public async Task<IActionResult> UploadPoster(IFormFile file)
         {
-            if (file == null || file.Length == 0)
-                return BadRequest("File not selected");
-
-            var url = await _s3Service.UploadFileAsync(file);
-
-            return Ok(new
+            try
             {
-                PosterUrl = url
-            });
+                Console.WriteLine("[S3] Спроба завантаження файлу...");
+                var fileUrl = await _s3Service.UploadFileAsync(file);
+                Console.WriteLine($"[S3] Файл успішно завантажено! URL: {fileUrl}");
+                return Ok(new { url = fileUrl });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[S3 ERROR] Помилка завантаження: {ex.Message}");
+                return StatusCode(500, new { message = "Помилка S3", error = ex.Message });
+            }
         }
 
     }
