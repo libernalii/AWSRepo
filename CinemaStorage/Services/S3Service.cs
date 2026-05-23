@@ -15,23 +15,22 @@ namespace CinemaStorage.Services
         {
             _configuration = configuration;
 
-            var accessKey = _configuration["AWS:AccessKey"];
-            var secretKey = _configuration["AWS:SecretKey"];
-            var region = RegionEndpoint.USEast1;
-
+            // Створюємо конфігурацію, вказуючи лише регіон. 
+            // ForcePathStyle для реального AWS S3 зазвичай не потрібен, але якщо у вас так було — залишаємо.
             var config = new AmazonS3Config
             {
                 RegionEndpoint = RegionEndpoint.USEast1,
                 ForcePathStyle = true
             };
 
-            _client = new AmazonS3Client(accessKey, secretKey, config);
+            // КРИТИЧНЕ ВИПРАВЛЕННЯ: Викликаємо конструктор без явних ключів.
+            // AWS SDK автоматично підтягне права з IAM-ролі вашого EC2 інстансу!
+            _client = new AmazonS3Client(config);
         }
 
         public async Task<string> UploadFileAsync(IFormFile file)
         {
             var bucketName = _configuration["AWS:BucketName"];
-
             var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
 
             using var stream = file.OpenReadStream();
@@ -45,9 +44,9 @@ namespace CinemaStorage.Services
             };
 
             var transferUtility = new TransferUtility(_client);
-
             await transferUtility.UploadAsync(uploadRequest);
 
+            // Повертаємо пряме посилання на файл в S3 bucket
             return $"https://{bucketName}.s3.amazonaws.com/{fileName}";
         }
     }
