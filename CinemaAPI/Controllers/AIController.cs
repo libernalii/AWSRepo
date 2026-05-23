@@ -47,15 +47,18 @@ namespace CinemaAPI.Controllers
                 Role = ConversationRole.User,
                 Content = new List<ContentBlock>
                 {
-                    new ContentBlock { Text = $"Порекомендуй фільм під такий настрій/опис: {request.Prompt}" }
+                    new ContentBlock
+                    {
+                        Text = $"Recommend one movie: {request.Prompt}"
+                    }
                 }
             }
         },
                 System = new List<SystemContentBlock> { new SystemContentBlock { Text = systemPrompt } },
                 InferenceConfig = new InferenceConfiguration
                 {
-                    Temperature = 0.6f,
-                    MaxTokens = 120 
+                    Temperature = 0.3f,
+                    MaxTokens = 40 
                 }
             };
 
