@@ -23,15 +23,9 @@ namespace CinemaStorage.Services
     {
         private readonly DynamoDBContext _context;
 
-        public DynamoDbService(IConfiguration configuration)
+        public DynamoDbService(IAmazonDynamoDB dynamoDb)
         {
-            var client = new AmazonDynamoDBClient(
-                configuration["AWS:AccessKey"],
-                configuration["AWS:SecretKey"],
-                RegionEndpoint.EUNorth1
-            );
-
-            _context = new DynamoDBContext(client);
+            _context = new DynamoDBContext(dynamoDb);
         }
 
         public async Task SaveUserAsync(DynamoUser user)
