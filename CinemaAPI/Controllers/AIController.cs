@@ -55,7 +55,7 @@ namespace CinemaAPI.Controllers
                 InferenceConfig = new InferenceConfiguration
                 {
                     Temperature = 0.6f,
-                    MaxTokens = 250
+                    MaxTokens = 120 
                 }
             };
 
