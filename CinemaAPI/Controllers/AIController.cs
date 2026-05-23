@@ -18,7 +18,7 @@ namespace CinemaAPI.Controllers
         private readonly string _tableName;
 
         // Вимоги ТЗ: Модель Meta Llama 3 
-        private const string ModelId = "meta.llama3-8b-instruct-v1:0";
+        private const string ModelId = "meta.llama3-1-8b-instruct-v1:0";
 
         public AIController(IAmazonBedrockRuntime bedrockClient, IAmazonDynamoDB dynamoDbClient, IConfiguration configuration)
         {
