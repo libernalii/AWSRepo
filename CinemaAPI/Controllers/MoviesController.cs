@@ -2,9 +2,8 @@
 using CinemaCore.Models.Requests;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using CinemaStorage.Services;
-
+using Microsoft.AspNetCore.Http;
 
 namespace CinemaAPI.Controllers
 {
@@ -13,22 +12,15 @@ namespace CinemaAPI.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _service;
-
         private readonly S3Service _s3Service;
 
+        // ЗАЛИШАЄМО ТІЛЬКИ ОДИН КОНСТРУКТОР З УСІМА ЗАЛЕЖНОСТЯМИ
         public MoviesController(IMovieService service, S3Service s3Service)
         {
             _service = service;
             _s3Service = s3Service;
         }
 
-        public MoviesController(IMovieService service)
-        {
-            _service = service;
-
-        }
-
-        // ВСІ БАЧАТЬ ФІЛЬМИ
         [HttpGet]
         public IActionResult GetAll()
         {
@@ -36,8 +28,6 @@ namespace CinemaAPI.Controllers
             return Ok(movies);
         }
 
-        // ТІЛЬКИ ADMIN
-        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Create(MovieRequest movie)
         {
@@ -45,8 +35,6 @@ namespace CinemaAPI.Controllers
             return Ok(result);
         }
 
-        // ТІЛЬКИ ADMIN
-        //[Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult Update(int id, MovieRequest movie)
         {
@@ -54,8 +42,6 @@ namespace CinemaAPI.Controllers
             return Ok(result);
         }
 
-        // ТІЛЬКИ ADMIN
-        //[Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -66,19 +52,26 @@ namespace CinemaAPI.Controllers
         [HttpPost("upload-poster")]
         public async Task<IActionResult> UploadPoster(IFormFile file)
         {
+            if (file == null || file.Length == 0)
+                return BadRequest("Файл не передано.");
+
             try
             {
-                Console.WriteLine("[S3] Спроба завантаження файлу...");
+                Console.WriteLine($"[S3] Отримано файл: {file.FileName}, розмір: {file.Length} байт");
+                Console.WriteLine("[S3] Надсилання запиту до AWS S3...");
+
                 var fileUrl = await _s3Service.UploadFileAsync(file);
-                Console.WriteLine($"[S3] Файл успішно завантажено! URL: {fileUrl}");
+
+                Console.WriteLine($"[S3] Успіх! Файл доступний за URL: {fileUrl}");
                 return Ok(new { url = fileUrl });
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"[S3 ERROR] Помилка завантаження: {ex.Message}");
+                Console.WriteLine($"[S3 CRITICAL ERROR] Тип: {ex.GetType().Name} -> Повідомлення: {ex.Message}");
+                Console.WriteLine($"[S3 STACK TRACE] {ex.StackTrace}");
+
                 return StatusCode(500, new { message = "Помилка S3", error = ex.Message });
             }
         }
-
     }
 }

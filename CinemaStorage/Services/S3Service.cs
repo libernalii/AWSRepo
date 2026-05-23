@@ -15,16 +15,14 @@ namespace CinemaStorage.Services
         {
             _configuration = configuration;
 
-            // Створюємо конфігурацію, вказуючи лише регіон. 
-            // ForcePathStyle для реального AWS S3 зазвичай не потрібен, але якщо у вас так було — залишаємо.
+            // Налаштовуємо чистий конфіг для реального AWS S3
             var config = new AmazonS3Config
             {
-                RegionEndpoint = RegionEndpoint.USEast1,
-                ForcePathStyle = true
+                RegionEndpoint = RegionEndpoint.USEast1
+                // ForcePathStyle = true СУВОРО ВИДАЛЕНО, бо він ламає роботу з реальними бакетами AWS
             };
 
-            // КРИТИЧНЕ ВИПРАВЛЕННЯ: Викликаємо конструктор без явних ключів.
-            // AWS SDK автоматично підтягне права з IAM-ролі вашого EC2 інстансу!
+            // Клієнт автоматично шукає IAM-роль сервера EC2
             _client = new AmazonS3Client(config);
         }
 
@@ -46,7 +44,6 @@ namespace CinemaStorage.Services
             var transferUtility = new TransferUtility(_client);
             await transferUtility.UploadAsync(uploadRequest);
 
-            // Повертаємо пряме посилання на файл в S3 bucket
             return $"https://{bucketName}.s3.amazonaws.com/{fileName}";
         }
     }
