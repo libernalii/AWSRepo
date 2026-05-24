@@ -40,13 +40,10 @@ builder.Services.AddDefaultAWSOptions(awsOptions);
 builder.Services.AddAWSService<IAmazonBedrockRuntime>();
 builder.Services.AddAWSService<IAmazonDynamoDB>();
 
-// DbContext через DI з правильним ConnectionString
+// DbContext через DI з підключенням до PostgreSQL
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(
-            builder.Configuration.GetConnectionString("DefaultConnection"))
-    ));
+    options.UseNpgsql(connectionString));
 
 // JWT Authentication
 var jwtSettings = builder.Configuration.GetSection("Jwt");
