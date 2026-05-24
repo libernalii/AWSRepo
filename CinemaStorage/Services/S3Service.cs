@@ -15,11 +15,9 @@ namespace CinemaStorage.Services
         {
             _configuration = configuration;
 
-            // Налаштовуємо чистий конфіг для реального AWS S3
             var config = new AmazonS3Config
             {
                 RegionEndpoint = RegionEndpoint.USEast1
-                // ForcePathStyle = true СУВОРО ВИДАЛЕНО, бо він ламає роботу з реальними бакетами AWS
             };
 
             // Клієнт автоматично шукає IAM-роль сервера EC2

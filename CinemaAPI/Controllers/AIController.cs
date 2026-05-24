@@ -17,7 +17,6 @@ namespace CinemaAPI.Controllers
         private readonly IAmazonDynamoDB _dynamoDbClient;
         private readonly string _tableName;
 
-        // Вимоги ТЗ: Модель Meta Llama 3 
         private const string ModelId = "us.meta.llama3-1-8b-instruct-v1:0";
 
         public AIController(IAmazonBedrockRuntime bedrockClient, IAmazonDynamoDB dynamoDbClient, IConfiguration configuration)
@@ -83,7 +82,6 @@ namespace CinemaAPI.Controllers
             }
             catch (Exception ex)
             {
-                // Цей рядок примусово виведе помилку прямо в команду `docker logs`!
                 Console.WriteLine($"[CRITICAL ERROR] Помилка в AIController: {ex.GetType().Name} -> {ex.Message}");
                 Console.WriteLine($"[STACK TRACE] {ex.StackTrace}");
 
@@ -99,7 +97,6 @@ namespace CinemaAPI.Controllers
         {
             var item = new Dictionary<string, AttributeValue>
             {
-                // Використовуємо UserId як первинний ключ, який ти створила
                 { "UserId", new AttributeValue { S = Guid.NewGuid().ToString() } },
                 { "UserPrompt", new AttributeValue { S = userPrompt } },
                 { "AiResponse", new AttributeValue { S = aiResponse } },

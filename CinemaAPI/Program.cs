@@ -32,11 +32,11 @@ builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<S3Service>();
 builder.Services.AddScoped<DynamoDbService>();
 
-// Реєструємо базові налаштування AWS з конфігурації (там залишиться тільки регіон)
+// Реєструємо базові налаштування AWS з конфігурації 
 var awsOptions = builder.Configuration.GetAWSOptions();
 builder.Services.AddDefaultAWSOptions(awsOptions);
 
-// Реєструємо клієнти AWS. Вони самі підтягнуть роль з EC2 або локальні змінні!
+// Реєструємо клієнти AWS. 
 builder.Services.AddAWSService<IAmazonBedrockRuntime>();
 builder.Services.AddAWSService<IAmazonDynamoDB>();
 
